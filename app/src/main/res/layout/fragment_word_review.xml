@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        android:id="@+id/root"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+            android:visibility="gone"
+            android:id="@+id/finish"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="完成复习!"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    <RelativeLayout
+            android:id="@+id/recite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:layout_marginTop="75dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/word"
+                android:textColor="@color/black"
+                android:text="physiological"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/word"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/accent"
+                android:textColor="@color/black"
+                android:text="/fɪziəlɒd'ʒɪk/"
+                android:textSize="25sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/accent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/means"
+                android:textColor="@color/black"
+                android:text="adj. 生理学的；生理的；  =physiological."
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_below="@id/means"
+                android:layout_above="@id/remainder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <Button
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:id="@+id/wrong"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:text="不认识"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_height="0dp"/>
+
+            <Button
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:id="@+id/right"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:text="我认识"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_height="0dp"/>
+        </LinearLayout>
+
+        <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/remainder"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:padding="5dp"
+                android:layout_marginBottom="15dp"
+                android:text="还剩 102 个单词"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</FrameLayout>
