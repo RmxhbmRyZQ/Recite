@@ -12,7 +12,9 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/Theme.Review">
+            android:theme="@style/Theme.Review"
+            android:usesCleartextTraffic="true"
+            android:requestLegacyExternalStorage="true">
         <service
                 android:name=".service.ReciteService"
                 android:enabled="true"
