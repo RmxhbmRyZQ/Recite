@@ -1,10 +1,13 @@
 package cn.flandre.review.tools;
 
-import cn.flandre.review.data.GroupWord;
-import cn.flandre.review.data.Word;
-import cn.flandre.review.database.SQLHelper;
-import cn.flandre.review.database.SQLRecite;
+import cn.flandre.review.data.bean.GroupWord;
+import cn.flandre.review.data.bean.Word;
+import cn.flandre.review.data.database.SQLHelper;
+import cn.flandre.review.data.database.SQLRecite;
 
+/**
+ * @author RmxhbmRyZQ 2021.8.30
+ */
 public class GroupWordHelper {
     public static final String SEPARATOR = ",";
 

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
             android:allowBackup="true"
@@ -20,14 +21,14 @@
                 >
         </service>
 
-        <activity android:name=".activity.ReviewActivity">
+        <activity android:name=".ui.activity.ReviewActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".activity.IndexActivity"/>
+                    android:value=".ui.activity.IndexActivity"/>
         </activity>
-        <activity android:name=".activity.IndexActivity">
+        <activity android:name=".ui.activity.IndexActivity">
         </activity>
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

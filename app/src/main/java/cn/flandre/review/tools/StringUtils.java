@@ -1,5 +1,8 @@
 package cn.flandre.review.tools;
 
+/**
+ * @author RmxhbmRyZQ 2021.8.30
+ */
 public class StringUtils {
     public static String join(boolean[] array, String sep) {
         if (array.length == 0) return "";

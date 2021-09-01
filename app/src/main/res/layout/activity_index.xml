@@ -6,7 +6,7 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.IndexActivity">
+        tools:context=".ui.activity.IndexActivity">
 
     <LinearLayout
             android:layout_gravity="center"

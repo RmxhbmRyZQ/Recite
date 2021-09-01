@@ -12,6 +12,9 @@ import cn.flandre.review.tools.NotificationHelper;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * @author RmxhbmRyZQ 2021.8.30
+ */
 public class ReciteService extends Service {
     public static final String NOTIFICATION_BROADCAST = "review.flandre.cn.notification";
 

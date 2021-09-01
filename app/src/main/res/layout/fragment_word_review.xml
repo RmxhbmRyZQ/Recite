@@ -22,78 +22,165 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <TextView
-                android:layout_marginTop="75dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/word"
-                android:textColor="@color/black"
-                android:text="physiological"
-                android:textStyle="bold"
-                android:textSize="30sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+        <ScrollView
+                android:id="@+id/scroll"
+                android:layout_alignParentTop="true"
+                android:layout_above="@id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-                android:layout_marginTop="30dp"
-                android:layout_below="@id/word"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/accent"
-                android:textColor="@color/black"
-                android:text="/fɪziəlɒd'ʒɪk/"
-                android:textSize="25sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            <LinearLayout
+                    android:padding="20dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        <TextView
-                android:layout_marginTop="30dp"
-                android:layout_below="@id/accent"
-                android:layout_centerHorizontal="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:id="@+id/means"
-                android:textColor="@color/black"
-                android:text="adj. 生理学的；生理的；  =physiological."
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:id="@+id/word"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_horizontal"
+                        android:text="physiological"
+                        android:textStyle="bold"
+                        android:textSize="30sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-        <LinearLayout
-                android:orientation="vertical"
+                <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:id="@+id/accent"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_horizontal"
+                        android:text="/fɪziəlɒd'ʒɪk/"
+                        android:textSize="25sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:id="@+id/means"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_horizontal"
+                        android:text="adj. 生理学的；生理的；  =physiological."
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="10dp"
+                        android:id="@+id/wordImage"
+                        android:src="@drawable/ic_launcher_background"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"/>
+
+                <TextView
+                        android:id="@+id/sentence"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:text="After his conviction, he was handcuffed and taken off to jail."/>
+
+                <TextView
+                        android:id="@+id/sentenceMeans"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:text="定罪后，他被戴上手铐，押进监狱。"/>
+
+                <ImageView
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/sentenceImage"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/ic_launcher_background"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"/>
+
+                <TextView
+                        android:id="@+id/explanation"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:text="the act of finding somebody guilty of a crime in court; the fact of having been found guilty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:id="@+id/wordRoot"
+                        android:layout_marginTop="10dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="convict使定罪 + ion名词后缀 → conviction 定罪"/>
+            </LinearLayout>
+        </ScrollView>
+
+        <GridLayout
+                android:layout_above="@id/remainder"
+                android:id="@+id/button"
+                android:layout_margin="10dp"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_below="@id/means"
-                android:layout_above="@id/remainder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             <Button
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:id="@+id/wrong"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:text="不认识"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_columnSpan="2"
+                    android:layout_column="0"
+                    android:layout_row="0"
+                    android:id="@+id/suspect"
+                    android:text="模糊"
                     android:textSize="30sp"
                     android:textStyle="bold"
-                    android:layout_height="0dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             <Button
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:id="@+id/right"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:text="我认识"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_column="0"
+                    android:layout_row="1"
+                    android:layout_columnWeight="1"
+                    android:id="@+id/wrong"
+                    android:layout_width="wrap_content"
+                    android:text="不认识"
+                    android:layout_marginRight="5dp"
                     android:textSize="30sp"
                     android:textStyle="bold"
-                    android:layout_height="0dp"/>
-        </LinearLayout>
+                    android:layout_height="wrap_content"/>
+
+            <Button
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_column="1"
+                    android:layout_row="1"
+                    android:layout_columnWeight="1"
+                    android:id="@+id/right"
+                    android:layout_width="wrap_content"
+                    android:text="我认识"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"/>
+        </GridLayout>
 
         <TextView
-                android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 android:id="@+id/remainder"
                 android:textColor="@color/black"
@@ -101,6 +188,7 @@
                 android:padding="5dp"
                 android:layout_marginBottom="15dp"
                 android:text="还剩 102 个单词"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
     </RelativeLayout>

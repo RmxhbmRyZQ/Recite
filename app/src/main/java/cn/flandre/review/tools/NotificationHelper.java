@@ -11,6 +11,9 @@ import android.os.Vibrator;
 import androidx.core.app.NotificationCompat;
 import cn.flandre.review.R;
 
+/**
+ * @author RmxhbmRyZQ 2021.8.30
+ */
 public class NotificationHelper {
     public static final int NOTIFICATION_ID = 0x49502;  // 通知栏ID
 //    public static final int ID = 495;
@@ -30,7 +33,7 @@ public class NotificationHelper {
             notificationManager.createNotificationChannel(mChannel);
         }
         final Intent nowPlayingIntent = new Intent();
-        nowPlayingIntent.setComponent(new ComponentName("cn.flandre.review", "cn.flandre.review.activity.ReviewActivity"));
+        nowPlayingIntent.setComponent(new ComponentName("cn.flandre.review", "cn.flandre.review.ui.activity.ReviewActivity"));
         nowPlayingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent click = PendingIntent.getActivity(context, 0, nowPlayingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, String.valueOf(NOTIFICATION_ID))

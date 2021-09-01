@@ -7,7 +7,7 @@
         android:background="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:context=".activity.IndexActivity"
+        tools:context=".ui.activity.IndexActivity"
         android:layout_gravity="center"
         android:orientation="vertical">
 
