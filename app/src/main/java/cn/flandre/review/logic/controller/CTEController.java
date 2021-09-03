@@ -24,6 +24,11 @@ public class CTEController extends Controller {
     }
 
     @Override
+    public int getType() {
+        return TYPE;
+    }
+
+    @Override
     public void init(Word word) {
         if ((this.word = word = solveNull(word)) == null) {
             return;
@@ -31,6 +36,7 @@ public class CTEController extends Controller {
         ReciteUI reciteUI = controller.getReciteUI();
         reciteUI.getWord().setVisibility(View.INVISIBLE);
         reciteUI.getAccent().setVisibility(View.INVISIBLE);
+        setExtraVisible(View.INVISIBLE);
         initUI(word);
     }
 
@@ -68,10 +74,12 @@ public class CTEController extends Controller {
             }
             reciteUI.getAccent().setVisibility(View.INVISIBLE);
             reciteUI.getWord().setVisibility(View.INVISIBLE);
+            setExtraVisible(View.INVISIBLE);
             initUI(word);
         }else {
             reciteUI.getWord().setVisibility(View.VISIBLE);
             reciteUI.getAccent().setVisibility(View.VISIBLE);
+            setExtraVisible(View.VISIBLE);
         }
     }
 

@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         if (SQLInit.available(this)) {
-            ProgressDialog processDialog = DialogHelper.getProcessDialog(this);
+            ProgressDialog processDialog = DialogHelper.getProcessDialog(this, "数据加载中~");
             processDialog.show();
             // 延迟发让进度弹窗显示
             Handler handler = new Handler(Looper.getMainLooper());

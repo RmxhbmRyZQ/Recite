@@ -1,5 +1,6 @@
 package cn.flandre.review.ui.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,7 +15,10 @@ import cn.flandre.review.R;
 import cn.flandre.review.data.bean.GroupWord;
 import cn.flandre.review.data.database.SQLHelper;
 import cn.flandre.review.data.database.SQLRecite;
+import cn.flandre.review.data.database.ShareHelper;
+import cn.flandre.review.logic.enumerate.ReviewMode;
 import cn.flandre.review.logic.recite.ReciteTimeManager;
+import cn.flandre.review.tools.DialogHelper;
 import cn.flandre.review.tools.GroupWordHelper;
 
 import java.io.File;
@@ -23,28 +27,32 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
+import static cn.flandre.review.logic.enumerate.ReviewMode.ENGLISH_MODE;
+import static cn.flandre.review.logic.enumerate.ReviewMode.ITEMS;
+
 /**
  * @author RmxhbmRyZQ 2021.8.30
  */
 public class IndexActivity extends BaseActivity {
+    private AlertDialog dialog;
 
     @OnClick(R.id.reciteWord)
-    public void reciteWord(View view){
+    public void reciteWord(View view) {
 
     }
 
     @OnClick(R.id.reviewWord)
-    public void reviewWord(View view){
+    public void reviewWord(View view) {
         startActivity(new Intent(this, ReviewActivity.class));
     }
 
     @OnClick(R.id.recitePhrase)
-    public void recitePhrase(View view){
+    public void recitePhrase(View view) {
 
     }
 
     @OnClick(R.id.reviewPhrase)
-    public void reviewPhrase(View view){
+    public void reviewPhrase(View view) {
 
     }
 
@@ -90,6 +98,15 @@ public class IndexActivity extends BaseActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.setting:
+                ReviewMode reviewMode = ShareHelper.getReviewMode(this, ENGLISH_MODE);
+                dialog = DialogHelper.getSingleChoiceDialog(this, ITEMS, "选择背诵模式",
+                        reviewMode.getIndex(), pos -> {
+                            ShareHelper.setReviewMode(IndexActivity.this, ReviewMode.parseInt(pos));
+                            dialog.cancel();
+                        });
+                dialog.show();
                 break;
         }
         return true;

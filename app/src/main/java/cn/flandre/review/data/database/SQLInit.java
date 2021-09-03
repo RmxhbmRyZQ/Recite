@@ -34,8 +34,7 @@ public class SQLInit {
         SQLRecite sqlRecite = SQLRecite.getSQLRecite();
 
         // 获取当前的版本保证初始化代码只运行一次
-        SharedPreferences sharedPreferences = context.getSharedPreferences("review", Activity.MODE_PRIVATE);
-        version = v = sharedPreferences.getInt("version", 0);
+        version = v = ShareHelper.getDatabaseVersion(context, 0);
 
         switch (version) {
             case 0:
@@ -49,9 +48,7 @@ public class SQLInit {
         }
 
         if (v != version) {
-            SharedPreferences.Editor edit = sharedPreferences.edit();
-            edit.putInt("version", version);
-            edit.apply();
+            ShareHelper.setDatabaseVersion(context, version);
         }
     }
 

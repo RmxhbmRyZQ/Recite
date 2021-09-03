@@ -1,7 +1,6 @@
 package cn.flandre.review.logic.controller;
 
 import android.graphics.BitmapFactory;
-import android.view.View;
 import cn.flandre.review.data.bean.DetailData;
 import cn.flandre.review.data.bean.Word;
 import cn.flandre.review.logic.callback.OnRequestDetailData;
@@ -95,7 +94,7 @@ abstract public class Controller {
                 if (data.getSentenceImagePath() != null)
                     reciteUI.getSentenceImage().setImageBitmap(BitmapFactory.decodeFile(data.getSentenceImagePath()));
                 else
-                    reciteUI.getWordImage().setImageBitmap(null);
+                    reciteUI.getSentenceImage().setImageBitmap(null);
 
                 reciteUI.getSentence().setText(data.getSentence());
                 reciteUI.getSentenceMeans().setText(data.getSentenceMeans());
@@ -110,6 +109,18 @@ abstract public class Controller {
             }
         });
     }
+
+    protected void setExtraVisible(int visibility) {
+        ReciteUI reciteUI = controller.getReciteUI();
+        reciteUI.getWordImage().setVisibility(visibility);
+        reciteUI.getSentenceImage().setVisibility(visibility);
+        reciteUI.getSentence().setVisibility(visibility);
+        reciteUI.getSentenceMeans().setVisibility(visibility);
+        reciteUI.getExplanation().setVisibility(visibility);
+        reciteUI.getWordRoot().setVisibility(visibility);
+    }
+
+    abstract public int getType();
 
     abstract public void init(Word word);
 

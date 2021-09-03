@@ -1,12 +1,15 @@
 package cn.flandre.review.logic.controller;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
+import cn.flandre.review.data.database.ShareHelper;
 import cn.flandre.review.logic.callback.OnRequestDetailData;
 import cn.flandre.review.data.bean.DetailData;
 import cn.flandre.review.data.bean.GroupWord;
 import cn.flandre.review.data.database.SQLRecite;
 import cn.flandre.review.logic.enumerate.ChoiceMode;
+import cn.flandre.review.logic.enumerate.ReviewMode;
 import cn.flandre.review.logic.extradata.DetailDataFactory;
 import cn.flandre.review.logic.extradata.DetailDataSpeaker;
 import cn.flandre.review.ui.fragment.ReviewWordFragment;
@@ -22,6 +25,7 @@ import java.util.List;
  * 背单词流程控制台，应该创建个新的包但想不到名字
  */
 public class ReciteWordController implements ReciteController {
+    // private static ReviewMode reviewMode;  // 歪门邪道
     private final ChoiceMode mode;
     private Recite recite;
     private Controller controller;
@@ -29,9 +33,22 @@ public class ReciteWordController implements ReciteController {
     private final ReviewWordFragment fragment;
     private DetailData data;
 
-    public static void saveTemporary(List<GroupWord> list, SQLRecite sqlRecite) {
-        ETCController.saveTemporary(list, sqlRecite);
-        CTEController.saveTemporary(list, sqlRecite);
+    public static void saveTemporary(Context context, List<GroupWord> list, SQLRecite sqlRecite) {
+        switch (ShareHelper.getReviewMode(context, ReviewMode.ENGLISH_MODE)){
+            case LISTEN_MODE:
+                LNController.saveTemporary(list, sqlRecite);
+                break;
+            case ENGLISH_MODE:
+                ETCController.saveTemporary(list, sqlRecite);
+                break;
+            case CHINESE_MODE:
+                CTEController.saveTemporary(list, sqlRecite);
+                break;
+            case ENGLISH_CHINESE_MODE:
+                ETCController.saveTemporary(list, sqlRecite);
+                CTEController.saveTemporary(list, sqlRecite);
+                break;
+        }
     }
 
     public ReciteWordController(ChoiceMode mode, ReviewWordFragment fragment) {
@@ -41,14 +58,32 @@ public class ReciteWordController implements ReciteController {
 
     @Override
     public void init() {
-        recite = ReciteWordCreator.getReciteWord(mode, 0, SQLRecite.getSQLRecite());
-        controller = new ETCController(this);
+        controller = createController();
+        recite = ReciteWordCreator.getReciteWord(fragment.getContext(), mode, controller.getType(), SQLRecite.getSQLRecite());
         speaker = new DetailDataSpeaker(() -> {
             Toast.makeText(fragment.getContext(), "该单词没有音频文件~", Toast.LENGTH_SHORT).show();
         });
         fragment.getWord().setOnClickListener(this::clickWord);
+        fragment.getAccent().setOnClickListener(this::clickWord);
         fragment.getSentence().setOnClickListener(this::clickSentence);
         checkReciteAvailable();
+    }
+
+    private Controller createController(){
+        Controller controller = null;
+        switch (ShareHelper.getReviewMode(fragment.getContext(), ReviewMode.ENGLISH_MODE)){
+            case LISTEN_MODE:
+                controller = new LNController(this);
+                break;
+            case ENGLISH_MODE:
+            case ENGLISH_CHINESE_MODE:
+                controller = new ETCController(this);
+                break;
+            case CHINESE_MODE:
+                controller = new CTEController(this);
+                break;
+        }
+        return controller;
     }
 
     private void clickWord(View view) {
@@ -101,22 +136,30 @@ public class ReciteWordController implements ReciteController {
 
     @Override
     public void finish(Recite lastRecite) {
-        oneFinish(lastRecite);
-//        twoFinish(lastRecite);
+        switch (ShareHelper.getReviewMode(fragment.getContext(), ReviewMode.ENGLISH_MODE)){
+            case LISTEN_MODE:
+            case ENGLISH_MODE:
+            case CHINESE_MODE:
+                normalFinish(lastRecite);
+                break;
+            case ENGLISH_CHINESE_MODE:
+                doubleFinish(lastRecite);
+                break;
+        }
     }
 
-    private void twoFinish(Recite lastRecite) {
+    private void doubleFinish(Recite lastRecite) {
         if (controller instanceof CTEController) {
             setComplete(lastRecite);
         } else {
             controller = new CTEController(this);
-            recite = ReciteWordCreator.getReciteWord(ChoiceMode.CONTINUE,
+            recite = ReciteWordCreator.getReciteWord(fragment.getContext(), ChoiceMode.CONTINUE,
                     lastRecite.getReciteData().isHasWrongWord(), 1, SQLRecite.getSQLRecite());
             checkReciteAvailable();
         }
     }
 
-    private void oneFinish(Recite lastRecite) {
+    private void normalFinish(Recite lastRecite) {
         setComplete(lastRecite);
     }
 

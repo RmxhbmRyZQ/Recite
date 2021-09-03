@@ -1,5 +1,6 @@
 package cn.flandre.review.logic.recite;
 
+import android.content.Context;
 import cn.flandre.review.logic.controller.ReciteWordController;
 import cn.flandre.review.data.bean.GroupWord;
 import cn.flandre.review.data.bean.ReciteData;
@@ -17,16 +18,16 @@ import static cn.flandre.review.data.database.SQLRecite.*;
  * Recite 的创建者
  */
 public class ReciteWordCreator {
-    public static Recite getReciteWord(ChoiceMode mode, int type, SQLRecite sqlRecite) {
-        Recite recite = new ReciteFutureDayWord(new ArrayList<>(), mode, new ReciteData(false, type), sqlRecite);;
+    public static Recite getReciteWord(Context context, ChoiceMode mode, int type, SQLRecite sqlRecite) {
+        Recite recite = new ReciteFutureDayWord(new ArrayList<>(), mode, new ReciteData(context, false, type), sqlRecite);;
         if (!SQLHelper.isEmptyGWT(FDWGW, type, ReciteTimeManager.turnSystemTimeToNormalTime(recite.getReciteData().getTime()), sqlRecite)) {
             recite = getReciteFutureDayWord(recite, sqlRecite);
         }
         return recite;
     }
 
-    public static Recite getReciteWord(ChoiceMode mode, boolean hasWrongWord, int type, SQLRecite sqlRecite) {
-        Recite recite = getReciteWord(mode, type, sqlRecite);
+    public static Recite getReciteWord(Context context, ChoiceMode mode, boolean hasWrongWord, int type, SQLRecite sqlRecite) {
+        Recite recite = getReciteWord(context, mode, type, sqlRecite);
         recite.getReciteData().setHasWrongWord(hasWrongWord);
         return recite;
     }
@@ -60,7 +61,7 @@ public class ReciteWordCreator {
 
     public static Recite getSQLReciteWord(Recite recite, SQLRecite sqlRecite) {
         List<GroupWord> list = SQLHelper.getGroupWords(sqlRecite);
-        ReciteWordController.saveTemporary(list, sqlRecite);
+        ReciteWordController.saveTemporary(recite.getReciteData().getContext(), list, sqlRecite);
         return new ReciteWord(list, recite.getMode(), recite.getReciteData(), sqlRecite);
     }
 }

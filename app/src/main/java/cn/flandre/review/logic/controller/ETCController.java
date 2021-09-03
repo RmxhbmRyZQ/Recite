@@ -24,12 +24,18 @@ public class ETCController extends Controller {
     }
 
     @Override
+    public int getType() {
+        return TYPE;
+    }
+
+    @Override
     public void init(Word word) {
         ReciteUI reciteUI = controller.getReciteUI();
         if ((this.word = word = solveNull(word)) == null) {
             return;
         }
         reciteUI.getMeans().setVisibility(View.INVISIBLE);
+        setExtraVisible(View.INVISIBLE);
         initUI(word);
     }
 
@@ -66,9 +72,11 @@ public class ETCController extends Controller {
                 return;
             }
             reciteUI.getMeans().setVisibility(View.INVISIBLE);
+            setExtraVisible(View.INVISIBLE);
             initUI(word);
         }else {
             reciteUI.getMeans().setVisibility(View.VISIBLE);
+            setExtraVisible(View.VISIBLE);
         }
     }
 
