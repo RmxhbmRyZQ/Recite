@@ -77,7 +77,11 @@ public class IndexActivity extends BaseActivity {
             case R.id.save:
                 try {
                     long l = ReciteTimeManager.turnSystemTimeToDetailTime(System.currentTimeMillis());
-                    File file = new File(getExternalFilesDir(null), "database" + l + ".txt");
+                    File root = new File(getExternalFilesDir(null), "database");
+                    if (!root.exists())
+                        root.mkdir();
+
+                    File file = new File(root, "database" + l + ".txt");
                     OutputStreamWriter outputStream = new OutputStreamWriter(new FileOutputStream(file));
                     List<GroupWord> allGroupWords = SQLHelper.getAllGroupWords(SQLRecite.getSQLRecite());
                     StringBuilder builder = new StringBuilder();
@@ -90,7 +94,8 @@ public class IndexActivity extends BaseActivity {
                                 .append(groupWord.getReciteTime()).append(":")
                                 .append(groupWord.getLastReciteTime()).append(":")
                                 .append(groupWord.getNextReciteTime()).append(":")
-                                .append(groupWord.getReciteTimes()).append("\n");
+                                .append(groupWord.getReciteTimes()).append(":")
+                                .append(groupWord.getGroup()).append("\n");
                     }
                     outputStream.write(builder.toString());
                     outputStream.close();
@@ -102,7 +107,9 @@ public class IndexActivity extends BaseActivity {
             case R.id.setting:
                 ReviewMode reviewMode = ShareHelper.getReviewMode(this, ENGLISH_MODE);
                 dialog = DialogHelper.getSingleChoiceDialog(this, ITEMS, "选择背诵模式",
-                        reviewMode.getIndex(), pos -> {
+                        reviewMode.getIndex(), (pos, text) -> {
+                            if (!text.equals(""))
+                                ShareHelper.setReviewNumber(IndexActivity.this, text);
                             ShareHelper.setReviewMode(IndexActivity.this, ReviewMode.parseInt(pos));
                             dialog.cancel();
                         });

@@ -28,7 +28,7 @@ public class SQLRecite extends SQLiteOpenHelper {
 
     public static SQLRecite getSQLRecite(Context context) {
         if (sqlRecite == null) {
-            sqlRecite = newInstance(context.getApplicationContext(), "recite.db", 2);
+            sqlRecite = newInstance(context.getApplicationContext(), "recite.db", 3);
         }
         return sqlRecite;
     }
@@ -64,7 +64,8 @@ public class SQLRecite extends SQLiteOpenHelper {
                 "RECITE_TIME BIGINT," +  // 背诵时间
                 "LAST_RECITE_TIME BIGINT," +  // 上次复习时间
                 "NEXT_RECITE_TIME BIGINT," +  // 下次复习时间
-                "RECITE_TIMES INTEGER)");  // 背诵次数
+                "RECITE_TIMES INTEGER," +  // 背诵次数
+                "GROUP_ID INTEGER)");  // 所属组
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TMPGW + "(" +
                 "WORD_ID INTEGER," +  // RECITE_RECORD 的 ID
@@ -120,6 +121,9 @@ public class SQLRecite extends SQLiteOpenHelper {
                         "MD5 VARCHAR(128)," +
                         "COVERAGE TINYINT," +
                         "VERSION INTEGER)");
+                break;
+            case 2:
+                db.execSQL("ALTER TABLE '" + RECITE_RECORD + "' ADD  'GROUP_ID' INTEGER");
                 break;
         }
     }

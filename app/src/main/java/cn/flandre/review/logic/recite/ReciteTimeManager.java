@@ -53,17 +53,23 @@ public class ReciteTimeManager {
         for (boolean b : groupWord.getWrong()) {
             if (b) wrongCount++;
         }
-        switch (wrongCount) {
-            case 0:
-            case 1:  // 错1,0个优秀
-                ++day;
-                break;
-            case 2:  // 错两个合格
-                break;
-            default:  // 错两个以上失败
-                --day;
-                break;
-        }
+        if (groupWord.getWrong().length == 1)
+            if (groupWord.getWrong()[0])
+                day--;
+            else if (!groupWord.getSuspect()[0])
+                day++;
+        else
+            switch (wrongCount) {
+                case 0:
+                case 1:  // 错1,0个优秀
+                    ++day;
+                    break;
+                case 2:  // 错两个合格
+                    break;
+                default:  // 错两个以上失败
+                    --day;
+                    break;
+            }
         // 如果延迟背诵，惩罚天数加一
         if (reciteTime > next + 2 * DAY) {
             --day;

@@ -28,4 +28,16 @@ public class ShareHelper {
         edit.putInt("reviewMode", reviewMode.getIndex());
         edit.apply();
     }
+
+    public static void setReviewNumber(Context context, String text) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("review", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString("reviewNumber", text);
+        edit.apply();
+    }
+
+    public static String getReviewNumber(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("review", Activity.MODE_PRIVATE);
+        return sharedPreferences.getString("reviewNumber", "20");
+    }
 }

@@ -1,5 +1,6 @@
 package cn.flandre.review.service;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,6 +21,8 @@ public class ReciteService extends Service {
 
     private IBinder mBinder;
     private boolean hasForeground = false;
+    private ReciteReceiver receiver;
+    private Notification notification;
 
     public ReciteService() {
     }
@@ -28,7 +31,7 @@ public class ReciteService extends Service {
     public void onCreate() {
         super.onCreate();
         mBinder = new ServiceStub(this);
-        ReciteReceiver receiver = new ReciteReceiver();
+        receiver = new ReciteReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(NOTIFICATION_BROADCAST);
         registerReceiver(receiver, filter);
@@ -57,7 +60,15 @@ public class ReciteService extends Service {
         }
     }
 
-    private static final class ServiceStub extends IReciteAidlInterface.Stub{
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiver != null)
+            unregisterReceiver(receiver);
+        stopForeground(true);
+    }
+
+    private static final class ServiceStub extends IReciteAidlInterface.Stub {
         private final WeakReference<ReciteService> mService;
 
         public ServiceStub(ReciteService mService) {
@@ -84,9 +95,11 @@ public class ReciteService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (intent.getAction()){
+            switch (intent.getAction()) {
                 case NOTIFICATION_BROADCAST:
-                    NotificationHelper.notify(ReciteService.this);
+                    if (notification == null)
+                        notification = NotificationHelper.getNotification(ReciteService.this);
+                    NotificationHelper.notify(ReciteService.this, notification);
                     hasForeground = true;
                     break;
             }

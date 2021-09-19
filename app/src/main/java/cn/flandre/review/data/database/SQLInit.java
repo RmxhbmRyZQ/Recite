@@ -100,8 +100,8 @@ public class SQLInit {
             for (int i = 0; i < text.length(); i++) {
                 String[] data = text.getString(i).split(":");
                 db.execSQL("INSERT INTO " + RECITE_RECORD + " (WORD_ID, WRONG_INDEX, CORRECT_INDEX,WRONG_TIMES, RIGHT_TIMES," +
-                        "RECITE_TIME, LAST_RECITE_TIME, NEXT_RECITE_TIME, RECITE_TIMES)VALUES(?,?,?,?,?,?,?,?,?)", new String[]{
-                        data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]
+                        "RECITE_TIME, LAST_RECITE_TIME, NEXT_RECITE_TIME, RECITE_TIMES, GROUP_ID)VALUES(?,?,?,?,?,?,?,?,?,?)", new String[]{
+                        data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]
                 });
             }
             db.setTransactionSuccessful();

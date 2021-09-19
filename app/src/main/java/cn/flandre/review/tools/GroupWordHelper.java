@@ -28,7 +28,7 @@ public class GroupWordHelper {
         String[] strings = index.split(SEPARATOR);
         boolean[] wordId = new boolean[strings.length];
         for (int i = 0; i < strings.length; i++) {
-            wordId[i] = Boolean.getBoolean(strings[i]);
+            wordId[i] = Boolean.parseBoolean(strings[i]);
         }
         groupWord.setWrongIndex(wordId);
     }
@@ -41,7 +41,7 @@ public class GroupWordHelper {
         String[] strings = index.split(SEPARATOR);
         boolean[] wordId = new boolean[strings.length];
         for (int i = 0; i < strings.length; i++) {
-            wordId[i] = Boolean.getBoolean(strings[i]);
+            wordId[i] = Boolean.parseBoolean(strings[i]);
         }
         groupWord.setCorrectIndex(wordId);
     }

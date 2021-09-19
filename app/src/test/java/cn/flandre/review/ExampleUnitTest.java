@@ -1,5 +1,6 @@
 package cn.flandre.review;
 
+import cn.flandre.review.tools.StringUtils;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
@@ -19,38 +20,7 @@ public class ExampleUnitTest {
 
     @Test
     public void addition_isCorrect() throws ParseException {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
-                .connectionPool(new ConnectionPool(4, TIMEOUT, TimeUnit.MILLISECONDS))
-                .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
-                .readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
-                .build();
-
-        Request request = new Request.Builder().url("http://7n.bczcdn.com/r/zp_185_13_0_20200728113319.zpk").get().build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                ResponseBody body = response.body();
-                assert body != null;
-                byte[] zpk = body.bytes();
-
-                synchronized (ExampleUnitTest.this) {
-                    ExampleUnitTest.this.notify();
-                }
-            }
-        });
-        synchronized (this) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        System.out.println("true".split(","));
 //        assertEquals(4, 2 + 2);
     }
 }

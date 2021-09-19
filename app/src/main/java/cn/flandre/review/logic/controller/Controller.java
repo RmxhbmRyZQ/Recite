@@ -11,8 +11,6 @@ import cn.flandre.review.logic.recite.Recite;
  * UI 显示的控制台
  */
 abstract public class Controller {
-    public static final String MAX_REVIEW_GROUP_COUNT = "20";
-
     ReciteController controller;
     boolean clickJudge;
 

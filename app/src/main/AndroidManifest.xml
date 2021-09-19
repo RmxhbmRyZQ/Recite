@@ -17,10 +17,11 @@
             android:requestLegacyExternalStorage="true">
         <service
                 android:name=".service.ReciteService"
-                android:enabled="true"
-                android:exported="true"
                 android:process=":recite"
                 >
+<!--                android:enabled="true"-->
+<!--                android:exported="true"-->
+<!--                >-->
         </service>
 
         <activity android:name=".ui.activity.ReviewActivity">

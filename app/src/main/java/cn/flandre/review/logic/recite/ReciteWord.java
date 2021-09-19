@@ -5,6 +5,7 @@ import cn.flandre.review.data.bean.ReciteData;
 import cn.flandre.review.data.bean.Word;
 import cn.flandre.review.data.database.SQLHelper;
 import cn.flandre.review.data.database.SQLRecite;
+import cn.flandre.review.data.database.ShareHelper;
 import cn.flandre.review.logic.enumerate.ChoiceMode;
 
 import java.text.ParseException;
@@ -106,17 +107,20 @@ public class ReciteWord extends Recite {
             case WRONG:
                 // 仅计算常错误的单词
                 for (GroupWord groupWord : list) {
-                    for (boolean b : groupWord.getWrongIndex()) {
-                        if (b) total++;
-                    }
+                    if (groupWord.getReciteTime() > TIMES_BETWEEN_WRONG_RIGHT) {
+                        for (boolean b : groupWord.getWrongIndex())
+                            if (b) total++;
+                    } else total += groupWord.getWord().length;
                 }
                 break;
             case PORTION:
                 // 去掉常对的单词
                 for (GroupWord groupWord : list) {
-                    for (boolean b : groupWord.getCorrectIndex()) {
-                        if (!b) total++;
-                    }
+                    if (groupWord.getReciteTime() > TIMES_BETWEEN_WRONG_RIGHT) {
+                        for (boolean b : groupWord.getCorrectIndex()) {
+                            if (!b) total++;
+                        }
+                    } else total += groupWord.getWord().length;
                 }
                 break;
         }
@@ -143,14 +147,15 @@ public class ReciteWord extends Recite {
                 // 其他情况就直接获取今天要背的单词
                 // 如果应该获取过单词了，那么背诵结束
                 if (!reciteData.isGetData()) {
-                    recite = ReciteWordCreator.getSQLReciteWord(this, sqlRecite);
+                    String reviewNumber = ShareHelper.getReviewNumber(reciteData.getContext());
+                    recite = ReciteWordCreator.getSQLReciteWord(this, sqlRecite, reviewNumber);
                     recite.getReciteData().setGetData(true);
                 }
                 break;
         }
         // 这个代码不应该放在这里，不符合设计原则
         // 可以使用一个接口链表，使用静态注册方法分散到各个子类里面，但小项目懒得搞
-        if (recite == null && !SQLHelper.isEmptyGWT(SGW, reciteData.getType(), sqlRecite)){
+        if (recite == null && !SQLHelper.isEmptyGWT(SGW, reciteData.getType(), sqlRecite)) {
             recite = ReciteWordCreator.getReciteSuspectWord(this, sqlRecite);
         }
         if (recite == null && !SQLHelper.isEmptyGWT(WGW, reciteData.getType(), sqlRecite)) {
@@ -173,14 +178,16 @@ public class ReciteWord extends Recite {
             case WRONG:
                 // 如果不是错误单词就继续获取下一个
                 while ((word = getNextWord()) != null) {
-                    if (groupWord.getWrongIndex()[wordAuxiliary.get(wordAuxiliaryIndex)])
+                    if (groupWord.getReciteTime() <= TIMES_BETWEEN_WRONG_RIGHT ||  // 背诵次数太少就不进行错误单词处理
+                            groupWord.getWrongIndex()[wordAuxiliary.get(wordAuxiliaryIndex)])
                         break;
                 }
                 break;
             case PORTION:
                 // 如果不是非常对单词就继续获取下一个
                 while ((word = getNextWord()) != null) {
-                    if (!groupWord.getCorrectIndex()[wordAuxiliary.get(wordAuxiliaryIndex)])
+                    if (groupWord.getReciteTime() <= TIMES_BETWEEN_WRONG_RIGHT ||
+                            !groupWord.getCorrectIndex()[wordAuxiliary.get(wordAuxiliaryIndex)])
                         break;
                 }
                 break;

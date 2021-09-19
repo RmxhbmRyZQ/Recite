@@ -20,6 +20,7 @@ public class GroupWord implements Serializable {
     private long lastReciteTime;
     private long nextReciteTime;
     private int reciteTimes;
+    private int group;
 
     // 具体数据从数据库拿, 不会存储到硬盘
     private Word[] word;
@@ -27,6 +28,14 @@ public class GroupWord implements Serializable {
     private boolean[] wrong;
     private int type;
     private boolean[] suspect;
+
+    public int getGroup() {
+        return group;
+    }
+
+    public void setGroup(int group) {
+        this.group = group;
+    }
 
     public boolean[] getSuspect() {
         return suspect;

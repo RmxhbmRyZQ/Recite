@@ -50,13 +50,13 @@ public class NotificationHelper {
         return notification;
     }
 
-    public static void cancel(Service service){
+    public static void cancel(Service service) {
         service.stopForeground(true);
     }
 
-    public static void notify(Service service){
+    public static void notify(Service service, Notification notification) {
         Vibrator mVibrator = (Vibrator) service.getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = {0,1000,1000};
+        long[] pattern = {0, 1000, 1000};
         AudioAttributes audioAttributes = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             audioAttributes = new AudioAttributes.Builder()
@@ -64,11 +64,10 @@ public class NotificationHelper {
                     .setUsage(AudioAttributes.USAGE_ALARM) //key
                     .build();
             mVibrator.vibrate(pattern, -1, audioAttributes);
-        }else {
+        } else {
             mVibrator.vibrate(pattern, -1);
         }
 
-        service.startForeground(NotificationHelper.NOTIFICATION_ID,
-                NotificationHelper.getNotification(service));
+        service.startForeground(NotificationHelper.NOTIFICATION_ID, notification);
     }
 }

@@ -59,8 +59,8 @@ public class ReciteWordCreator {
         return new ReciteWord(list, recite.getMode(), recite.getReciteData(), sqlRecite);
     }
 
-    public static Recite getSQLReciteWord(Recite recite, SQLRecite sqlRecite) {
-        List<GroupWord> list = SQLHelper.getGroupWords(sqlRecite);
+    public static Recite getSQLReciteWord(Recite recite, SQLRecite sqlRecite, String max) {
+        List<GroupWord> list = SQLHelper.getGroupWords(sqlRecite, max);
         ReciteWordController.saveTemporary(recite.getReciteData().getContext(), list, sqlRecite);
         return new ReciteWord(list, recite.getMode(), recite.getReciteData(), sqlRecite);
     }

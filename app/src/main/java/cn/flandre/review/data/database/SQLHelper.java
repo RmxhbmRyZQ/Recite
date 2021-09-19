@@ -12,7 +12,6 @@ import cn.flandre.review.logic.recite.ReciteTimeManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.flandre.review.logic.controller.Controller.MAX_REVIEW_GROUP_COUNT;
 import static cn.flandre.review.data.database.SQLRecite.ZPK;
 import static cn.flandre.review.logic.recite.ReciteTimeManager.DEFAULT_RECITE_TIME;
 
@@ -50,6 +49,7 @@ public class SQLHelper {
         groupWord.setLastReciteTime(cursor.getLong(7));
         groupWord.setNextReciteTime(cursor.getLong(8));
         groupWord.setReciteTimes(cursor.getInt(9));
+        groupWord.setGroup(cursor.getInt(10));
         GroupWordHelper.setWords(groupWord, sqlRecite);
     }
 
@@ -62,7 +62,7 @@ public class SQLHelper {
         SQLiteDatabase readableDatabase = sqlRecite.getReadableDatabase();
         Cursor cursor = readableDatabase.query("RECITE_RECORD", new String[]{"ID", "WORD_ID", "WRONG_INDEX",
                 "CORRECT_INDEX", "WRONG_TIMES", "RIGHT_TIMES", "RECITE_TIME", "LAST_RECITE_TIME", "NEXT_RECITE_TIME",
-                "RECITE_TIMES"}, "ID=?", new String[]{String.valueOf(id)}, null, null, null);
+                "RECITE_TIMES", "GROUP_ID"}, "ID=?", new String[]{String.valueOf(id)}, null, null, null);
         cursor.moveToNext();
         setGroupWord(groupWord, cursor, sqlRecite);
         cursor.close();
@@ -77,7 +77,7 @@ public class SQLHelper {
         // 越迟背优先(可能是比较不熟)，LAST_RECITE_TIME 上次背诵时间越近越迟背诵(第一优先位)，ID 越大越迟背诵(第二优先位)
         Cursor cursor = readableDatabase.query("RECITE_RECORD", new String[]{"ID", "WORD_ID", "WRONG_INDEX",
                 "CORRECT_INDEX", "WRONG_TIMES", "RIGHT_TIMES", "RECITE_TIME", "LAST_RECITE_TIME", "NEXT_RECITE_TIME",
-                "RECITE_TIMES"}, null, null, null, null, null);
+                "RECITE_TIMES", "GROUP_ID"}, null, null, null, null, null);
 
         while (cursor.moveToNext()) {
             GroupWord groupWord = new GroupWord();
@@ -92,7 +92,7 @@ public class SQLHelper {
     /**
      * 获取要背的单词
      */
-    public static List<GroupWord> getGroupWords(SQLRecite sqlRecite) {
+    public static List<GroupWord> getGroupWords(SQLRecite sqlRecite, String max) {
         ArrayList<GroupWord> list = new ArrayList<>();
         String date = String.valueOf(ReciteTimeManager.turnSystemTimeToNormalTime(System.currentTimeMillis()));
 
@@ -100,8 +100,8 @@ public class SQLHelper {
         // 越迟背优先(可能是比较不熟)，LAST_RECITE_TIME 上次背诵时间越近越迟背诵(第一优先位)，ID 越大越迟背诵(第二优先位)
         Cursor cursor = readableDatabase.query("RECITE_RECORD", new String[]{"ID", "WORD_ID", "WRONG_INDEX",
                         "CORRECT_INDEX", "WRONG_TIMES", "RIGHT_TIMES", "RECITE_TIME", "LAST_RECITE_TIME", "NEXT_RECITE_TIME",
-                        "RECITE_TIMES"}, "NEXT_RECITE_TIME<=?", new String[]{date}, null, null,
-                "-LAST_RECITE_TIME, -ID", MAX_REVIEW_GROUP_COUNT);
+                        "RECITE_TIMES", "GROUP_ID"}, "NEXT_RECITE_TIME<=?", new String[]{date}, null, null,
+                "-LAST_RECITE_TIME, -ID", max);
 
         while (cursor.moveToNext()) {
             GroupWord groupWord = new GroupWord();
